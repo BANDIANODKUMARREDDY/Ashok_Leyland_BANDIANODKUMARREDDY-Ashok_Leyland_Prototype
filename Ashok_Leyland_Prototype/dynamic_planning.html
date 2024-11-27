@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Planning</title>
+    <link rel="stylesheet" href="dynamic_styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            background-image: url('photo1.jpg'); /* Add background image */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            animation: fadeInBackground 2s ease-out forwards; /* Animation for background */
+        }
+
+        @keyframes fadeInBackground {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        section#dynamic-planning {
+            padding: 40px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            margin: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #00274d;
+        }
+
+        .planning-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #00274d;
+            color: #fff;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        button#dynamic-ui {
+            display: block;
+            width: 220px;
+            padding: 12px;
+            margin: 20px auto;
+            background-color: #ffcc00;
+            color: #00274d;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        button#dynamic-ui:hover {
+            background-color: #ff9900;
+            transform: scale(1.05);
+        }
+
+        button#dynamic-ui:focus {
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <section id="dynamic-planning">
+        <h2>Dynamic Planning</h2>
+        <div class="planning-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Machine Process</th>
+                        <th>Capacity</th>
+                        <th>Current Plan</th>
+                        <th>Adjust Plan</th>
+                        <th>Remaining Capacity</th>
+                    </tr>
+                </thead>
+                <tbody id="planning-table">
+                    <!-- Dynamic rows will be inserted here by JavaScript -->
+                </tbody>
+            </table>
+            <!-- Button to navigate to dynamic_planning_ui -->
+            <button id="dynamic-ui" onclick="window.location.href='dynamic_planning_ui.html'">Go to Dynamic UI</button>
+        </div>
+    </section>
+    <script src="dynamic_script.js"></script>
+</body>
+</html>

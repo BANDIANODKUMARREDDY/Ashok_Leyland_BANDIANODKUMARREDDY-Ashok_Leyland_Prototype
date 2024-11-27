@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Production Tracking - Ashok Leyland</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Body style with animated background */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #ff5f6d, #ffc3a0, #6a11cb, #2575fc);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite; /* Animate the gradient background */
+            background-attachment: fixed;
+            background-color: #f4f4f9;
+        }
+
+        @keyframes gradient-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        header {
+            background: rgba(0, 39, 77, 0.8); /* Semi-transparent background for header */
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            opacity: 0.9; /* Slightly transparent to blend with the background */
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        table thead {
+            background: #00274d;
+            color: white;
+        }
+
+        table th, table td {
+            padding: 12px 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            text-transform: uppercase;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tbody tr:hover {
+            background-color: #e0e0e0;
+            cursor: pointer;
+            transform: scale(1.02);
+            transition: transform 0.2s ease, background-color 0.3s ease;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .actions button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            border: none;
+            background: #00274d;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .actions button:hover {
+            background: #00509e;
+            transform: translateY(-3px);
+        }
+
+        .actions button:active {
+            transform: translateY(1px);
+        }
+
+        .edit-button {
+            background: #f0ad4e;
+            border-radius: 5px;
+        }
+
+        .edit-button:hover {
+            background: #ec971f;
+        }
+
+        .invalid {
+            color: red;
+            font-size: 0.875rem;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ashok Leyland <span>Production Tracking</span></h1>
+    </header>
+    <div class="container">
+        <h2>Daily Production Overview</h2>
+        <table id="production-tracking-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Produced</th>
+                    <th>Planned</th>
+                    <th>Variance</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="production-table-body">
+                <!-- Dynamic rows will be added here -->
+            </tbody>
+        </table>
+        <div class="actions">
+            <button onclick="addRow()">Add Row</button>
+            <button onclick="resetTable()">Reset</button>
+            <a href="index.html">
+                <button>Back to Dashboard</button>
+            </a>
+        </div>
+        <div id="form-validation" class="invalid">
+            Please enter valid values for Produced and Planned.
+        </div>
+    </div>
+
+    <script>
+        // Sample data to be dynamically inserted into the table
+        const productionData = [
+            { date: "2024-11-21", produced: 200, planned: 210 },
+            { date: "2024-11-22", produced: 215, planned: 220 },
+            { date: "2024-11-23", produced: 205, planned: 210 },
+        ];
+
+        // Function to calculate variance
+        function calculateVariance(produced, planned) {
+            return produced - planned;
+        }
+
+        // Function to render data into the table
+        function renderTable() {
+            const tableBody = document.getElementById('production-table-body');
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            productionData.forEach(item => {
+                const variance = calculateVariance(item.produced, item.planned);
+                const row = `
+                    <tr>
+                        <td>${item.date}</td>
+                        <td>${item.produced}</td>
+                        <td>${item.planned}</td>
+                        <td>${variance}</td>
+                        <td><button class="edit-button" onclick="editRow('${item.date}')">Edit</button></td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Function to add a new row
+        function addRow() {
+            const newRow = {
+                date: prompt("Enter Date (YYYY-MM-DD):"),
+                produced: parseInt(prompt("Enter Produced value:")),
+                planned: parseInt(prompt("Enter Planned value:")),
+            };
+
+            if (isNaN(newRow.produced) || isNaN(newRow.planned) || !newRow.date) {
+                document.getElementById('form-validation').style.display = 'block';
+                return;
+            }
+
+            productionData.push(newRow);
+            renderTable();
+            document.getElementById('form-validation').style.display = 'none';  // Hide validation message
+        }
+
+        // Function to edit a row
+        function editRow(date) {
+            const row = productionData.find(item => item.date === date);
+            if (row) {
+                const newProduced = prompt("Enter new produced value:", row.produced);
+                const newPlanned = prompt("Enter new planned value:", row.planned);
+                const newDate = prompt("Enter new date:", row.date);
+
+                // Validation
+                if (isNaN(newProduced) || isNaN(newPlanned) || !newDate) {
+                    document.getElementById('form-validation').style.display = 'block';
+                    return;
+                }
+
+                row.produced = parseInt(newProduced);
+                row.planned = parseInt(newPlanned);
+                row.date = newDate;
+
+                renderTable();
+                document.getElementById('form-validation').style.display = 'none';  // Hide validation message
+            }
+        }
+
+        // Function to reset the table data to original
+        function resetTable() {
+            productionData.length = 0;  // Clear the data
+            renderTable();  // Re-render with empty data
+        }
+
+        // Initial rendering of the table
+        renderTable();
+    </script>
+</body>
+</html>

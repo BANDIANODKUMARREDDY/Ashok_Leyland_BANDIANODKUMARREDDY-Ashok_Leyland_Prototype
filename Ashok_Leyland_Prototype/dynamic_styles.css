@@ -1,0 +1,45 @@
+/* Dynamic Planning Styles */
+.planning-container {
+    overflow-x: auto;
+    margin-top: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.planning-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.planning-container th, .planning-container td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.planning-container th {
+    background-color: #2a2d34;
+    color: white;
+    font-weight: 500;
+}
+
+.planning-container td input {
+    width: 70%;
+    padding: 5px;
+    text-align: center;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.planning-container td input:focus {
+    border-color: #5d5dff;
+    outline: none;
+}
+
+.remaining {
+    font-weight: bold;
+    color: #5d5dff;
+}

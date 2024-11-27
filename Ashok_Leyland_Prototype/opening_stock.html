@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashok Leyland - Opening Stock</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        header {
+            background: #00274d;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th, td {
+            padding: 12px;
+        }
+
+        th {
+            background-color: #00274d;
+            color: white;
+        }
+
+        td {
+            background-color: #f9f9f9;
+        }
+
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            background-color: #00274d;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background-color: #ffcc00;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ashok Leyland <span>Opening Stock</span></h1>
+    </header>
+
+    <div class="container">
+        <h2>Opening Stock Details</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Opening Stock (OS)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Sample Data from Data Flow -->
+                <tr>
+                    <td>LS GEAR SOFT</td>
+                    <td>260.00</td>
+                </tr>
+                <tr>
+                    <td>MS GEAR SOFT</td>
+                    <td>264.00</td>
+                </tr>
+                <tr>
+                    <td>MAIN SHAFT SOFT</td>
+                    <td>267.00</td>
+                </tr>
+                <tr>
+                    <td>LAY SHAFT SOFT</td>
+                    <td>267.00</td>
+                </tr>
+                <tr>
+                    <td>INPUT SHAFT SOFT</td>
+                    <td>267.00</td>
+                </tr>
+                <tr>
+                    <td>GEARS HARD BORE GRINDING</td>
+                    <td>226.00</td>
+                </tr>
+                <tr>
+                    <td>GEARS HARD TEETH GRINDING</td>
+                    <td>201.00</td>
+                </tr>
+                <tr>
+                    <td>SHAFT HARD TEETH GRINDING</td>
+                    <td>368.00</td>
+                </tr>
+                <tr>
+                    <td>INPUT SHAFT HARD</td>
+                    <td>290.00</td>
+                </tr>
+                <tr>
+                    <td>LAY SHAFT HARD</td>
+                    <td>276.00</td>
+                </tr>
+                <tr>
+                    <td>MAIN SHAFT HARD</td>
+                    <td>250.00</td>
+                </tr>
+                <tr>
+                    <td>SYNCHRO BROACH</td>
+                    <td>283.00</td>
+                </tr>
+                <tr>
+                    <td>SYNCHRO CONE SOFT</td>
+                    <td>262.00</td>
+                </tr>
+                <tr>
+                    <td>SYNCHRO HUB & FDR SOFT</td>
+                    <td>250.00</td>
+                </tr>
+                <tr>
+                    <td>SYNCHRO SLEEVE HARD & SOFT</td>
+                    <td>266.00</td>
+                </tr>
+                <tr>
+                    <td>SYNCHRO CONE HARD</td>
+                    <td>307.00</td>
+                </tr>
+                <tr>
+                    <td>SYNCHRO HUB & FDR HARD</td>
+                    <td>263.00</td>
+                </tr>
+                <tr>
+                    <td>GB CASING</td>
+                    <td>165.00</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="button-container">
+            <button class="back-btn" onclick="window.location.href='index.html'">Back to Dashboard</button>
+        </div>
+    </div>
+</body>
+</html>

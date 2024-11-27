@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monthly Production Plan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #00274d, #00509e);
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin: 0;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('photo1.jpg') center center/cover no-repeat;
+            z-index: -1;
+            animation: backgroundZoom 5s infinite alternate;
+            background-position: center; /* Keeps the image centered */
+            background-size: cover; /* Ensures the image covers the entire viewport */
+        }
+
+        /* Keyframes for zoom animation */
+        @keyframes backgroundZoom {
+            0% {
+                transform: scale(1); /* Initial scale */
+            }
+            100% {
+                transform: scale(1.05); /* Slight zoom effect */
+            }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            text-align: center;
+            color: #00509e;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table thead {
+            background: #00509e;
+            color: #fff;
+        }
+
+        table th, table td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        table tbody tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        table tbody tr:hover {
+            background: #e9f5ff;
+        }
+
+        table input {
+            width: 100%;
+            border: none;
+            text-align: center;
+            padding: 5px;
+            font-size: 1rem;
+        }
+
+        table input:focus {
+            border: 1px solid #00509e;
+            outline: none;
+            background: #f0faff;
+        }
+
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .actions button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            background: #00509e;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .actions button:hover {
+            background: #003d7a;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Monthly Production Plan</h1>
+    </header>
+    <div class="container">
+        <h2>3-Month Production Plan</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Month</th>
+                    <th>Planned Production</th>
+                    <th>Actual Production</th>
+                    <th>Variance</th>
+                </tr>
+            </thead>
+            <tbody id="monthly-plan-table">
+                <!-- Dynamic rows inserted via JavaScript -->
+            </tbody>
+        </table>
+        <div class="actions">
+            <button onclick="saveData()">Save Changes</button>
+            <button onclick="resetData()">Reset</button>
+            <a href="index.html">
+                <button>Back to Dashboard</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Dynamic Data
+        let productionData = [
+            { month: "November 2024", planned: 1000, actual: 950, variance: -50 },
+            { month: "December 2024", planned: 1100, actual: 1050, variance: -50 },
+            { month: "January 2025", planned: 1200, actual: 1250, variance: 50 }
+        ];
+
+        // Function to Render Table
+        function renderTable(data) {
+            const tableBody = document.getElementById('monthly-plan-table');
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            data.forEach((item, index) => {
+                const row = `
+                    <tr>
+                        <td>${item.month}</td>
+                        <td><input type="number" value="${item.planned}" onchange="updateData(${index}, 'planned', this.value)"></td>
+                        <td><input type="number" value="${item.actual}" onchange="updateData(${index}, 'actual', this.value)"></td>
+                        <td>${item.variance}</td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Update Data and Recalculate Variance
+        function updateData(index, field, value) {
+            productionData[index][field] = Number(value);
+            productionData[index].variance = productionData[index].actual - productionData[index].planned;
+            renderTable(productionData);
+        }
+
+        // Save Changes (example: log the data)
+        function saveData() {
+            console.log("Saved Data:", productionData);
+            alert("Changes have been saved!");
+        }
+
+        // Reset Data to Initial State
+        function resetData() {
+            productionData = [
+                { month: "November 2024", planned: 1000, actual: 950, variance: -50 },
+                { month: "December 2024", planned: 1100, actual: 1050, variance: -50 },
+                { month: "January 2025", planned: 1200, actual: 1250, variance: 50 }
+            ];
+            renderTable(productionData);
+        }
+
+        // Initial Render
+        renderTable(productionData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashok Leyland Part Matrix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Include Chart.js -->
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('photo4.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            flex-direction: column;
+            color: white; /* Ensures text is readable against the background */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            background-color: rgba(0, 0, 0, 0.7); /* Darker transparent background for better contrast */
+            border-radius: 8px;
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            opacity: 0;
+            animation: fadeInContainer 1s forwards;
+            margin: 20px;
+        }
+
+        @keyframes fadeInContainer {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+            animation: slideUp 1s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            0% {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #ffffff; /* Light color for header text */
+            font-weight: 600;
+        }
+
+        h2 {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .view-plan-matrix-container {
+            overflow-x: auto;
+            margin-top: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            background-color: #333; /* Darker background for the table container */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+            opacity: 0;
+            animation: fadeInTable 1.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeInTable {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        table th, table td {
+            text-align: center;
+            padding: 12px;
+            border: 1px solid #ddd;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #555; /* Dark background for table cells */
+            color: #fff; /* White text for visibility */
+        }
+
+        table th {
+            background-color: #00274d;
+            color: white;
+            font-weight: 600;
+        }
+
+        table td:first-child {
+            font-weight: bold;
+            color: #f1f1f1;
+        }
+
+        /* Status Colors with Unique Animations and Backgrounds */
+        .available {
+            background-color: #28a745; /* Green */
+            color: white;
+            font-weight: bold;
+            animation: fadeInGreen 2s ease-in-out forwards;
+        }
+
+        .in-progress {
+            background-color: #ffeb3b; /* Yellow */
+            color: black;
+            font-weight: bold;
+            animation: slideInFromRight 2s ease-out forwards;
+        }
+
+        .out-of-stock {
+            background-color: #dc3545; /* Red */
+            color: white;
+            font-weight: bold;
+            animation: slideInFromBottom 2s ease-in-out forwards;
+        }
+
+        /* New Animations */
+        /* Fade In with Green */
+        @keyframes fadeInGreen {
+            0% { opacity: 0; transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Slide in from Right */
+        @keyframes slideInFromRight {
+            0% {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Slide in from Bottom */
+        @keyframes slideInFromBottom {
+            0% {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Visualization Styles */
+        .charts-container {
+            margin-top: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .chart {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            height: 300px;
+            opacity: 0;
+            animation: fadeInChart 1.5s ease-in-out forwards;
+        }
+
+        @keyframes fadeInChart {
+            0% {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .charts-container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            table th, table td {
+                padding: 8px;
+                font-size: 0.9rem;
+            }
+
+            .chart {
+                height: 250px;
+            }
+        }
+
+        /* Back to Dashboard Button */
+        .back-to-dashboard {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 24px;
+            background-color: #00274d;
+            color: white;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-to-dashboard:hover {
+            background-color: #00508f;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Ashok Leyland</h1>
+    </header>
+
+    <h2>Part Matrix Master Data</h2>
+
+    <div class="view-plan-matrix-container">
+        <h3>View Plan Matrix</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Part ID</th>
+                    <th>Part Name</th>
+                    <th>Category</th>
+                    <th>Subcategory</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Plan</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Main Shaft</td>
+                    <td>Gearbox</td>
+                    <td>Hard</td>
+                    <td>300</td>
+                    <td class="available">Available</td>
+                    <td>Plan 1</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Input Shaft</td>
+                    <td>Gearbox</td>
+                    <td>Soft</td>
+                    <td>250</td>
+                    <td class="available">Available</td>
+                    <td>Plan 2</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Synchro Cone</td>
+                    <td>Transmission</td>
+                    <td>Hard</td>
+                    <td>0</td>
+                    <td class="out-of-stock">Out of Stock</td>
+                    <td>Plan 3</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Gear Hub</td>
+                    <td>Transmission</td>
+                    <td>Soft</td>
+                    <td>120</td>
+                    <td class="in-progress">In Progress</td>
+                    <td>Plan 4</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="charts-container">
+        <div class="chart">
+            <canvas id="chart1Canvas"></canvas>
+        </div>
+        <div class="chart">
+            <canvas id="chart2Canvas"></canvas>
+        </div>
+    </div>
+
+    <!-- Back to Dashboard Button -->
+    <a href="index.html" class="back-to-dashboard">Back to Dashboard</a>
+</div>
+
+<script>
+    // Create a sample chart with Chart.js
+    const ctx1 = document.getElementById('chart1Canvas').getContext('2d');
+    const ctx2 = document.getElementById('chart2Canvas').getContext('2d');
+
+    // Sample Data
+    const data1 = {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
+        datasets: [{
+            label: 'Parts Available',
+            data: [100, 200, 150, 180, 220],
+            backgroundColor: '#28a745',
+            borderColor: '#1c7430',
+            borderWidth: 1
+        }]
+    };
+
+    const data2 = {
+        labels: ['Part A', 'Part B', 'Part C'],
+        datasets: [{
+            label: 'Status Distribution',
+            data: [10, 15, 5],
+            backgroundColor: ['#28a745', '#ffeb3b', '#dc3545'],
+            borderColor: ['#1c7430', '#fbc02d', '#b71c1c'],
+            borderWidth: 1
+        }]
+    };
+
+    // Sample Chart 1
+    new Chart(ctx1, {
+        type: 'bar',
+        data: data1,
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Parts Availability'
+                }
+            }
+        }
+    });
+
+    // Sample Chart 2
+    new Chart(ctx2, {
+        type: 'pie',
+        data: data2,
+        options: {
+            responsive: true,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Status Distribution'
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

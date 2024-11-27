@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock Overview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, rgba(0, 39, 77, 0.8), rgba(0, 39, 77, 0.8)),
+                        url('photo2.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            animation: moveBackground 10s ease-in-out infinite;
+            color: #333;
+        }
+
+        header {
+            background: rgba(0, 39, 77, 0.8); /* Semi-transparent dark background */
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background for content */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        table thead {
+            background: #00274d;
+            color: white;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            text-transform: uppercase;
+        }
+
+        table tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .actions button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            border: none;
+            background: #00274d;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .actions button:hover {
+            background: #00509e;
+        }
+
+        .editable {
+            background-color: #fff6d1;
+            border: 1px dashed #ccc;
+        }
+
+        .save-button {
+            background: #28a745;
+        }
+
+        .save-button:hover {
+            background: #218838;
+        }
+
+        /* Animation for background */
+        @keyframes moveBackground {
+            0% {
+                background-position: 0 0;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            100% {
+                background-position: 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Stock Overview</h1>
+    </header>
+    <div class="container">
+        <h2>Opening Stock Overview</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Part Name</th>
+                    <th>Opening Stock</th>
+                    <th>Current Stock</th>
+                    <th>Difference</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="stock-table">
+                <!-- Dynamic rows will be added here -->
+            </tbody>
+        </table>
+        <div class="actions">
+            <button onclick="filterLowStock()">Filter Low Stock</button>
+            <button onclick="resetData()">Reset</button>
+            <a href="index.html">
+                <button>Back to Dashboard</button>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Sample data to be dynamically inserted into the table
+        let stockData = [
+            { part: "Gearbox Casing", opening: 120, current: 100, difference: -20 },
+            { part: "Main Shaft", opening: 200, current: 190, difference: -10 },
+            { part: "Input Shaft", opening: 150, current: 150, difference: 0 },
+        ];
+
+        // Function to render data into the table
+        function renderTable(data) {
+            const tableBody = document.getElementById('stock-table');
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            data.forEach((item, index) => {
+                const row = `
+                    <tr>
+                        <td>${item.part}</td>
+                        <td contenteditable="true" class="editable" data-field="opening" data-index="${index}">${item.opening}</td>
+                        <td contenteditable="true" class="editable" data-field="current" data-index="${index}">${item.current}</td>
+                        <td>${item.difference}</td>
+                        <td>
+                            <button class="save-button" onclick="saveRow(${index})">Save</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Function to filter data for low stock
+        function filterLowStock() {
+            const filteredData = stockData.filter(item => item.difference < 0);
+            renderTable(filteredData);
+        }
+
+        // Function to reset data
+        function resetData() {
+            renderTable(stockData);
+        }
+
+        // Function to save edited row
+        function saveRow(index) {
+            const openingCell = document.querySelector(`td[data-index="${index}"][data-field="opening"]`);
+            const currentCell = document.querySelector(`td[data-index="${index}"][data-field="current"]`);
+
+            const newOpening = parseInt(openingCell.innerText.trim());
+            const newCurrent = parseInt(currentCell.innerText.trim());
+
+            // Update data
+            stockData[index].opening = newOpening;
+            stockData[index].current = newCurrent;
+            stockData[index].difference = newCurrent - newOpening;
+
+            // Re-render table
+            renderTable(stockData);
+        }
+
+        // Initial rendering of the table
+        renderTable(stockData);
+    </script>
+</body>
+</html>
